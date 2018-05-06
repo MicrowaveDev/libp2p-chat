@@ -19,7 +19,7 @@ docker run libp2p-chat-node-a -p 3001:3001
 On node 'B' pass address from node 'A' logs to CONNECT_TO variable. If node 'A' is a remote host, then replace 127.0.0.1 ip by remote host ip
 ```
 docker build -t libp2p-chat-node-b ./ --build-arg CONNECT_TO=/ip4/127.0.0.1/tcp/3001/ipfs/QmdXGaeGiVA745XorV1jr11RHxB9z4fqykm6xCUPX1aTJo
-docker run libp2p-chat-node-b -p 3001:3001
+docker run libp2p-chat-node-b
 ```
 
 ## Manual Build and Run
