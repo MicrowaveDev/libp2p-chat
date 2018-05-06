@@ -93,6 +93,7 @@ func (node *Node) ConnectToDest(dest *string) (*bufio.ReadWriter){
 
 	fmt.Println("This node's multiaddress: ")
 	fmt.Printf("%s/ipfs/%s\n", node.Address, node.host.ID().Pretty())
+	fmt.Printf("peer id: %s", peerID)
 
 	s, err := node.host.NewStream(context.Background(), peerID, "/chat/1.0.0")
 

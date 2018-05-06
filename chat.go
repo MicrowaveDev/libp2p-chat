@@ -91,11 +91,15 @@ func readData(rw *bufio.ReadWriter, node *dat.Node) {
 func writeData(node *dat.Node) {
 	stdReader := bufio.NewReader(os.Stdin)
 
+	fmt.Print("> ")
 	for {
-		fmt.Print("> ")
 		sendData, err := stdReader.ReadString('\n')
 
-		panicGuard(err)
+		if err.Error() == "EOF" {
+			continue
+		}
+
+		//panicGuard(err)
 		node.OutgoingID++
 		msg := dat.CreateMessage(sendData, node.Address.String(), node.OutgoingID)
 		node.MS[msg.Key()] = msg
