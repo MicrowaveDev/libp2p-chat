@@ -4,25 +4,43 @@ This program demonstrates a simple p2p chat application. It can work between two
 1. Both have private IP address (same network).
 2. At least one of them has a public IP address.
 
-Assume if 'A' and 'B' are on different networks host 'A' may or may not have a public IP address but host 'B' has one.
+Assume if 'A' and 'B' are on different networks host 'B' may or may not have a public IP address but host 'A' has one.
 
-Usage: Run `./chat -sp <SOURCE_PORT>` on host 'B' where <SOURCE_PORT> can be any port number. Now run `./chat -d <MULTIADDR_B>` on node 'A' [`<MULTIADDR_B>` is multiaddress of host 'B' which can be obtained from host 'B' console].
+Usage: Run `./chat -sp <SOURCE_PORT>` on host 'A' where <SOURCE_PORT> can be any port number. Now run `./chat -d <MULTIADDR_B>` on node 'B' [`<MULTIADDR_B>` is multiaddress of host 'A' which can be obtained from host 'A' console].
 
-## Build
+## Run by docker
 
-To build the example, first run `make deps` in the root directory.
+On node 'A'
+```
+docker build -t libp2p-chat-node-a ./
+docker run libp2p-chat-node-a -p 3001:3001
+```
+
+On node 'B' pass address from node 'A' logs to CONNECT_TO variable. If node 'A' is a remote host, then replace 127.0.0.1 ip by remote host ip
+```
+docker build -t libp2p-chat-node-b ./ --build-arg CONNECT_TO=/ip4/127.0.0.1/tcp/3001/ipfs/QmdXGaeGiVA745XorV1jr11RHxB9z4fqykm6xCUPX1aTJo
+docker run libp2p-chat-node-b -p 3001:3001
+```
+
+## Manual Build and Run
+
+To build the example, first install dependencies by gx-go, then run:
 
 ```
-> make deps
-> go build ./examples/chat
+gx --verbose install --global
+gx-go rewrite
+go build -o chat ./
 ```
 
 ## Usage
 
-On node 'B'
-
+On node 'A'
 ```
-> ./chat -sp 3001
+./chat -sp 3001
+```
+
+Output:
+```
 Run ./chat -d /ip4/127.0.0.1/tcp/3001/ipfs/QmdXGaeGiVA745XorV1jr11RHxB9z4fqykm6xCUPX1aTJo
 
 2018/02/27 01:21:32 Got a new stream!
@@ -31,10 +49,13 @@ Run ./chat -d /ip4/127.0.0.1/tcp/3001/ipfs/QmdXGaeGiVA745XorV1jr11RHxB9z4fqykm6x
 > no
 ```
 
-On node 'A'. Replace 127.0.0.1 with <PUBLIC_IP> if node 'B' has one.
-
+On node 'B'. Replace 127.0.0.1 with <PUBLIC_IP> if node 'A' has one.
 ```
-> ./chat -d /ip4/127.0.0.1/tcp/3001/ipfs/QmdXGaeGiVA745XorV1jr11RHxB9z4fqykm6xCUPX1aTJo
+./chat -d /ip4/127.0.0.1/tcp/3001/ipfs/QmdXGaeGiVA745XorV1jr11RHxB9z4fqykm6xCUPX1aTJo
+```
+
+Output:
+```
 Run ./chat -d /ip4/127.0.0.1/tcp/3001/ipfs/QmdXGaeGiVA745XorV1jr11RHxB9z4fqykm6xCUPX1aTJo
 
 This node's multiaddress:
