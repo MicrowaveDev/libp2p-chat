@@ -49,6 +49,8 @@ import (
 	"gx/ipfs/QmfZTdmunzKzAGJrSvXXQbQ5kLLUiEMX5vdwux7iXkdk7D/go-libp2p-host"
 )
 
+var nickname *string
+
 /*
 * addAddrToPeerstore parses a peer multiaddress and adds
 * it to the given host's peerstore, so it knows how to
@@ -122,7 +124,7 @@ func writeData(rw *bufio.ReadWriter) {
 			panic(err)
 		}
 
-		rw.WriteString(fmt.Sprintf("%s\n", sendData))
+		rw.WriteString(fmt.Sprintf("%s: %s\n", *nickname, sendData))
 		rw.Flush()
 	}
 
@@ -132,6 +134,7 @@ func main() {
 
 	sourcePort := flag.Int("sp", 0, "Source port number")
 	dest := flag.String("d", "", "Dest MultiAddr String")
+	nickname = flag.String("n", "", "Set a nickname")
 	help := flag.Bool("help", false, "Display Help")
 	debug := flag.Bool("debug", true, "Debug generated same node id on every execution.")
 
@@ -142,6 +145,10 @@ func main() {
 		fmt.Printf("Usage: Run './chat -sp <SOURCE_PORT>' where <SOURCE_PORT> can be any port number. Now run './chat -d <MULTIADDR>' where <MULTIADDR> is multiaddress of previous listener host.\n")
 
 		os.Exit(0)
+	}
+
+	if *nickname == "" {
+		*nickname = "unknown"
 	}
 
 	// If debug is enabled used constant random source else cryptographic randomness.
