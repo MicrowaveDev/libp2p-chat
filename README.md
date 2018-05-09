@@ -24,8 +24,13 @@ docker run libp2p-chat-node-b
 
 ## Manual Build and Run
 
-To build the example, first install dependencies by gx-go, then run:
+To build the example, first install dependencies by gx-go:
+```
+go get -u github.com/whyrusleeping/gx
+go get -u github.com/whyrusleeping/gx-go
+```
 
+then run:
 ```
 gx --verbose install --global
 gx-go rewrite
