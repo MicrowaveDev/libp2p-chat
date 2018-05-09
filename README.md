@@ -30,7 +30,7 @@ go get -u github.com/whyrusleeping/gx
 go get -u github.com/whyrusleeping/gx-go
 ```
 
-then run:
+then clone repo in `$GOPATH/src` and run in repo directory:
 ```
 gx --verbose install --global
 gx-go rewrite
